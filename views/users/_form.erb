@@ -1,7 +1,15 @@
 <form accept-charset="UTF-8" action="/users" class="new_user" id="new_user" method="post">
-  <div style="margin:0;padding:0;display:inline">
-  <input name="utf8" type="hidden"/>
-  <input name="authenticity_token" type="hidden" value="UWWeMk7acxI1kbZFEQBtIrn7iY6TiCOZlMFL0mOsxPc=" /></div>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="field">
   	<label for="user_email">Email</label><br />
