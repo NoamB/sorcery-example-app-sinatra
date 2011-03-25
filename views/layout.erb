@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sinatra & Sorcery</title>
+</head>
+<body>
+
+	<div id="nav">
+		<% if current_user %>
+        	<a href=<%= url('/edit/'+current_user.id.to_s) %>>Edit Profile</a>
+        	<a href=<%= url('/logout') %>>Logout</a>
+        <% else %>
+        	<a href=<%= url('/register') %>>Register</a> |
+        	<a href=<%= url('/login') %>>Login</a> |
+			<a href=<%= url('/login/http') %>>Login from HTTP</a> |
+			<a href=<%= url('/login/twitter') %>>Login with Twitter</a> | 
+			<a href=<%= url('/login/facebook') %>>Login with Facebook</a>
+        <% end %>
+	</div>
+	<% if current_user %>
+		<div id="current_users"> Currently active users: <%= current_users_list %></div>
+	<% end %>
+<%= yield %>
+
+</body>
+</html>
