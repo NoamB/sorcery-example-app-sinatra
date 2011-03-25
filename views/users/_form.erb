@@ -1,0 +1,21 @@
+<form accept-charset="UTF-8" action="/users" class="new_user" id="new_user" method="post">
+  <div style="margin:0;padding:0;display:inline">
+  <input name="utf8" type="hidden"/>
+  <input name="authenticity_token" type="hidden" value="UWWeMk7acxI1kbZFEQBtIrn7iY6TiCOZlMFL0mOsxPc=" /></div>
+
+  <div class="field">
+  	<label for="user_email">Email</label><br />
+    <input id="user_email" name="user[email]" size="30" type="text" />
+  </div>
+  <div class="field">
+    <label for="user_password">Password</label><br />
+    <input id="user_password" name="user[password]" size="30" type="password" />
+  </div>
+  <div class="field">
+    <label for="user_password_confirmation">Password confirmation</label><br />
+    <input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password" />
+  </div>
+  <div class="actions">
+    <input id="user_submit" name="commit" type="submit" value="Create User" />
+  </div>
+</form>

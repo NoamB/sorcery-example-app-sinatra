@@ -1,0 +1,21 @@
+<h1>Listing users</h1>
+<p id="notice"><%= @notice %></p>
+<p id="alert"><%= @alert %></p>
+<table>
+  <tr>
+    <th>User</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= user.email %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<a href=<%= url('/users/new') %>>New User</a>
