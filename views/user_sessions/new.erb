@@ -1,9 +1,9 @@
 <h1>Login</h1>
-<p id="notice"><%= notice %></p>
-<p id="alert"><%= alert %></p>
-<%= render 'form' %>
+<p id="notice"></p>
+<p id="alert"></p>
+<%= erb :'user_sessions/_form' %>
 
 <h1>Forgot Password?</h1>
-<%= render 'forgot_password_form' %>
+<%= erb :'user_sessions/_forgot_password_form' %>
 
-<%= link_to 'Back', user_sessions_path %>
+<a href="/">Back</a>

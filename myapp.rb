@@ -42,7 +42,7 @@ require File.join(File.dirname(__FILE__),'models','authentication')
 require File.join(File.dirname(__FILE__),'models','user')
 
 # filters
-['/test_logout','/some_action','/test_should_be_logged_in'].each do |patt|
+['/logout'].each do |patt|
   before patt do
     require_login
   end
@@ -52,16 +52,22 @@ before '/test_http_basic_auth' do
   require_login_from_http_basic
 end
 
-# actions
-get '/' do
+before do
   @notice = session[:notice]
   @alert = session[:alert]
-  session.clear
+  session[:notice] = nil
+  session[:alert] = nil
+end
+
+# actions
+get '/' do
   @users = User.all
   erb :'users/index'
 end
 
+# registration
 get '/users/new' do
+  @user = User.new
   erb :'users/new'
 end
 
@@ -76,14 +82,9 @@ post '/users' do
   end
 end
 
+# login/logout
 get '/login' do
-  @user = login(params[:username],params[:password])
-  if @user
-    session[:notice] = "Login Success!"
-  else
-    session[:alert] = "Login Failed!"
-  end
-  erb :'users/index'
+  erb :'user_sessions/new'
 end
 
 get '/logout' do
@@ -91,6 +92,18 @@ get '/logout' do
   session[:notice] = "Logged out!"
   erb :'users/index'
 end
+
+post '/login' do
+  @user = login(params[:email],params[:password],params[:remember])
+  if @user
+    session[:notice] = "Login Success!"
+  else
+    session[:alert] = "Login Failed!"
+  end
+  redirect '/'
+end
+
+
 
 def not_authenticated
   halt "You must login to see this page!"
