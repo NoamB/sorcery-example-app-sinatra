@@ -11,9 +11,21 @@ ActiveRecord::Base.establish_connection(
   :verbosity => "quiet"
 )
 
+# mailer
 require 'action_mailer'
-ActionMailer::Base.perform_deliveries = false
-ActionMailer::Base.raise_delivery_errors = false
+ActionMailer::Base.perform_deliveries = true
+ActionMailer::Base.raise_delivery_errors = true
+ActionMailer::Base.smtp_settings = {
+  :address              => "smtp.gmail.com",
+  :port                 => 587,
+  :domain               => 'example.com',
+  :user_name            => 'nbenari',# put your real username here to send emails.
+  :password             => 'secret', # put your real password here to send emails.
+  :authentication       => 'plain',
+  :enable_starttls_auto => true  
+}
+
+ActionMailer::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
 require File.join(File.dirname(__FILE__),'models','sorcery_mailer')
 
@@ -79,6 +91,16 @@ post '/users' do
   else
     session[:alert] = "Failed!"
     redirect '/'
+  end
+end
+
+get '/users/:id/activate' do
+  if @user = User.load_from_activation_token(params[:id])
+    @user.activate!
+    session[:notice] = 'User was successfully activated.'
+    redirect '/login'
+  else
+    not_authenticated
   end
 end
 

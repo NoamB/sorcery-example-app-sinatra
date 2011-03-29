@@ -4,14 +4,14 @@ class SorceryMailer < ActionMailer::Base
   
   def activation_needed_email(user)
     @user = user
-    @url  = "http://example.com/login"
+    @url  = "http://0.0.0.0:4567/users/#{user.activation_code}/activate"
     mail(:to => user.email,
          :subject => "Welcome to My Awesome Site")
   end
   
   def activation_success_email(user)
     @user = user
-    @url  = "http://example.com/login"
+    @url  = "http://0.0.0.0:4567/login"
     mail(:to => user.email,
          :subject => "Your account is now activated")
   end

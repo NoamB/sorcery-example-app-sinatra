@@ -1,1 +1,1 @@
-Under construction
+This is an example of using Sorcery with Sinatra.
