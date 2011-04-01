@@ -20,6 +20,10 @@
 	<% if current_user %>
 		<div id="current_users"> Currently active users: <%= current_users_list %></div>
 	<% end %>
+	<div>
+		<p id="notice"><%= @notice %></p>
+		<p id="alert"><%= @alert %></p>
+	</div>
 <%= yield %>
 
 </body>

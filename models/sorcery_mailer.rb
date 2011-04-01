@@ -4,7 +4,7 @@ class SorceryMailer < ActionMailer::Base
   
   def activation_needed_email(user)
     @user = user
-    @url  = "http://0.0.0.0:4567/users/#{user.activation_code}/activate"
+    @url  = "http://0.0.0.0:4567/users/#{user.activation_token}/activate"
     mail(:to => user.email,
          :subject => "Welcome to My Awesome Site")
   end
@@ -18,8 +18,8 @@ class SorceryMailer < ActionMailer::Base
   
   def reset_password_email(user)
     @user = user
-    @url  = "http://example.com/login"
+    @url  = "http://0.0.0.0:4567/password_resets/#{user.reset_password_token}/edit"
     mail(:to => user.email,
-         :subject => "Your password has been reset")
+         :subject => "Reset password request")
   end
 end
