@@ -33,6 +33,9 @@ require File.join(File.dirname(__FILE__),'models','sorcery_mailer')
 # models
 require 'sorcery'
 Sorcery::Controller::Config.submodules = [:user_activation, :http_basic_auth, :remember_me, :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :oauth]
+include Sorcery::Controller::Adapters::Sinatra
+include Sorcery::Controller
+
 Sinatra::Application.activate_sorcery! do |config|
   config.session_timeout = 10.minutes
   config.session_timeout_from_last_action = false
@@ -61,7 +64,7 @@ require File.join(File.dirname(__FILE__),'models','user')
   end
 end
 
-before '/test_http_basic_auth' do
+before '/login/http' do
   require_login_from_http_basic
 end
 
@@ -76,6 +79,10 @@ end
 helpers do
   def current_users_list
     current_users.map {|u| u.email}.join(", ")
+  end
+  
+  def not_authenticated
+    halt "You must login to see this page!"
   end
 end
 
@@ -150,9 +157,10 @@ get '/password_resets/:token/edit' do
   @user = User.load_from_reset_password_token(params[:token])
   @token = params[:token]
   not_authenticated if !@user
+  erb :'password_resets/edit'
 end
 
-put '/password_resets' do
+put '/password_resets/:id' do
   @user = User.load_from_reset_password_token(params[:token])
   not_authenticated if !@user
   # the next line clears the temporary token and updates the password
@@ -164,12 +172,8 @@ put '/password_resets' do
   end
 end
 
-def not_authenticated
-  halt "You must login to see this page!"
-end
-
 # HTTP Basic Auth
-get '/login_with_http_basic_auth' do
+get '/login/http' do
   erb "HTTP Basic Auth"
 end
 
