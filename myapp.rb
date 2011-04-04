@@ -182,16 +182,22 @@ get '/auth_at_provider' do
   auth_at_provider(params[:provider])
 end
 
-get '/oauth/:provider/callback' do
+get '/oauth/callback' do
   provider = params[:provider]
   @user = login_from_access_token(provider)
-  unless @user
-    if @user = create_from_provider!(provider)
-      erb "Success!"
-    else
-      erb "Failed!"
-    end
+  if @user
+    session[:notice] = "Success!"
+    redirect '/'
   else
-    
+    if @user = create_from_provider!(provider)
+      @user.activate!
+      session.clear # protect from session fixation attack
+      login_user(@user)
+      session[:notice] = "User created!"
+      redirect '/'
+    else
+      session[:alert] = "Failed!"
+      redirect '/'
+    end
   end
 end
