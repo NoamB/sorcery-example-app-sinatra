@@ -32,7 +32,7 @@ require File.join(File.dirname(__FILE__),'models','sorcery_mailer')
 
 # models
 require 'sorcery'
-Sorcery::Controller::Config.submodules = [:user_activation, :http_basic_auth, :remember_me, :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :oauth]
+Sorcery::Controller::Config.submodules = [:user_activation, :http_basic_auth, :remember_me, :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :external]
 include Sorcery::Controller::Adapters::Sinatra
 include Sorcery::Controller
 
@@ -42,7 +42,7 @@ Sinatra::Application.activate_sorcery! do |config|
 
   config.controller_to_realm_map = {"application" => "Application", "users" => "Users"}
 
-  config.oauth_providers = [:twitter, :facebook]
+  config.external_providers = [:twitter, :facebook]
 
   config.twitter.key = "eYVNBjBDi33aa9GkA3w"
   config.twitter.secret = "XpbeSdCoaKSmQGSeokz5qcUATClRW5u08QWNfv71N8"
@@ -177,19 +177,19 @@ get '/login/http' do
   erb "HTTP Basic Auth"
 end
 
-# OAuth
+# External
 get '/auth_at_provider' do
-  auth_at_provider(params[:provider])
+  login_at(params[:provider])
 end
 
 get '/oauth/callback' do
   provider = params[:provider]
-  @user = login_from_access_token(provider)
+  @user = login_from(provider)
   if @user
     session[:notice] = "Success!"
     redirect '/'
   else
-    if @user = create_from_provider!(provider)
+    if @user = create_from(provider)
       @user.activate!
       session.clear # protect from session fixation attack
       login_user(@user)

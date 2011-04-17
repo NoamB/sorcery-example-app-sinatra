@@ -75,7 +75,7 @@ GEM
     sinatra (1.2.1)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
-    sorcery (0.2.1)
+    sorcery (0.3.1)
       bcrypt-ruby (~> 2.1.4)
       json (>= 1.5.1)
       oauth (>= 0.4.4)
