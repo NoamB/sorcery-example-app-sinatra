@@ -30,30 +30,11 @@ ActionMailer::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 
 require File.join(File.dirname(__FILE__),'models','sorcery_mailer')
 
-# models
+# sorcery
 require 'sorcery'
-Sorcery::Controller::Config.submodules = [:user_activation, :http_basic_auth, :remember_me, :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :external]
-include Sorcery::Controller::Adapters::Sinatra
-include Sorcery::Controller
+require_relative 'sorcery_config'
 
-Sinatra::Application.activate_sorcery! do |config|
-  config.session_timeout = 10.minutes
-  config.session_timeout_from_last_action = false
-
-  config.controller_to_realm_map = {"application" => "Application", "users" => "Users"}
-
-  config.external_providers = [:twitter, :facebook]
-
-  config.twitter.key = "eYVNBjBDi33aa9GkA3w"
-  config.twitter.secret = "XpbeSdCoaKSmQGSeokz5qcUATClRW5u08QWNfv71N8"
-  config.twitter.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=twitter"
-  config.twitter.user_info_mapping = {:email => "screen_name"}
-
-  config.facebook.key = "34cebc81c08a521bc66e212f947d73ec"
-  config.facebook.secret = "5b458d179f61d4f036ee66a497ffbcd0"
-  config.facebook.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=facebook"
-  config.facebook.user_info_mapping = {:email => "name"}
-end
+# models
 require File.join(File.dirname(__FILE__),'models','authentication')
 require File.join(File.dirname(__FILE__),'models','user')
 
