@@ -1,10 +1,11 @@
+require 'logger'
 require 'sinatra'
 enable :sessions
 
+# establish DB connection
 require 'sqlite3'
 require 'active_record'
-require 'logger'
-# establish connection
+
 ActiveRecord::Base.establish_connection(
   :adapter  => "sqlite3",
   :database => "dummy",
@@ -27,7 +28,6 @@ ActionMailer::Base.smtp_settings = {
 }
 
 ActionMailer::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
-
 require File.join(File.dirname(__FILE__),'models','sorcery_mailer')
 
 # sorcery
@@ -39,8 +39,8 @@ require File.join(File.dirname(__FILE__),'models','authentication')
 require File.join(File.dirname(__FILE__),'models','user')
 
 # filters
-['/logout'].each do |patt|
-  before patt do
+['/logout'].each do |pattern|
+  before pattern do
     require_login
   end
 end
