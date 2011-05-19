@@ -34,6 +34,8 @@ Sorcery::Controller::Config.configure do |config|
     
     user.authentications_class                        = Authentication
   end
+  
+  config.user_class = User
 end
 
 include Sorcery::Controller::Adapters::Sinatra
