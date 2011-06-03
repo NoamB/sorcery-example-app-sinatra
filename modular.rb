@@ -29,13 +29,13 @@ ActionMailer::Base.smtp_settings = {
 ActionMailer::Base.view_paths = File.join(File.dirname(__FILE__), 'views')
 require File.join(File.dirname(__FILE__),'models','sorcery_mailer')
 
+# models
+autoload :Authentication, File.join(File.dirname(__FILE__),'models','authentication')
+autoload :User, File.join(File.dirname(__FILE__),'models','user')
+
 # sorcery
 require 'sorcery'
 require_relative 'sorcery_config'
-
-# models
-require File.join(File.dirname(__FILE__),'models','authentication')
-require File.join(File.dirname(__FILE__),'models','user')
 
 # helpers
 module MyHelpers
