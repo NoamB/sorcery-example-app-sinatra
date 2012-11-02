@@ -2,8 +2,24 @@ This is an example of using Sorcery with Sinatra.
 
 https://github.com/NoamB/sorcery
 
+Fork the repository with
+    
+    git clone https://github.com/NoamB/sorcery-example-app-sinatra.git
+
+fetch all dependencies
+    
+    cd sorcery-example-app-sinatra
+    gem install bundler
+    bundle install
+
 It uses sqlite as a database, and includes a 'db:migrate' rake task for your convenience.
+
+    rake db:migrate
 
 Run it at port 3000 (needed for OAuth examples):
 
-  ruby myapp.rb -p 3000
+    ruby myapp.rb -p 3000
+
+And access it via
+  
+    http://localhost:3000
